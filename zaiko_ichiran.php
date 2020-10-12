@@ -19,10 +19,20 @@ if (/* ②の処理を書く */){
 }
 
 //⑤データベースへ接続し、接続情報を変数に保存する
-
+$db_name='zaiko2020_yse';
+$host='localhost';
+$user_name='zaiko2020_yse';
+$password='2020zaiko';
+$dsn = "mysql:dbname={$db_name};host={$host};cherset=utf8";
 //⑥データベースで使用する文字コードを「UTF8」にする
-
+try {
+    $pdo = new PDO($dsn, $user_name, $password);
+} catch (PDOException $e) {
+	exit;
+}
 //⑦書籍テーブルから書籍情報を取得するSQLを実行する。また実行結果を変数に保存する
+$sql="SELECT * FROM books";
+$row = $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="ja">
