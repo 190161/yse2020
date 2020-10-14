@@ -26,15 +26,15 @@
 //⑥データベースへ接続し、接続情報を変数に保存する
 $db_name = "zaiko2020_yse";
 $host = "localhost";
-$user_name = "root";
-$password = "";
+$user_name = "zaiko2020_yse";
+$password = "2020zaiko";
 $dsn = "mysql:dbname={$db_name};host={$host}";
 
 try{
 	$pdo = new PDO($dsn, $user_name, $password);
-	echo "接続成功1".PHP_EOL;
+	// echo "接続成功1".PHP_EOL;
 }catch(PDDException $e){
-	echo "接続失敗:".$e->getMessage().PHP_EOL;
+	// echo "接続失敗:".$e->getMessage().PHP_EOL;
 	exit;
 }
 //⑦データベースで使用する文字コードを「UTF8」にする
@@ -51,8 +51,10 @@ function getId($id,$con){
 	 * その際にWHERE句でメソッドの引数の$idに一致する書籍のみ取得する。
 	 * SQLの実行結果を変数に保存する。
 	 */
-
+	$sql= "SELECT * FROM books WHERE id = {$id}";
+	$query=$con->query($sql);
 	//⑫実行した結果から1レコード取得し、returnで値を返す。
+	return $query->fetch(PDO::FETCH_ASSOC);
 }
 ?>
 <!DOCTYPE html>
@@ -108,23 +110,22 @@ function getId($id,$con){
 				/*
 				 * ⑮POSTの「books」から一つずつ値を取り出し、変数に保存する。
 				 */
-				$sql = "SELECT * FROM books";
-				$row = $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
-				//foreach(/* ⑮の処理を書く */){
+				foreach($_POST['books'] as $book_id){
 					// ⑯「getId」関数を呼び出し、変数に戻り値を入れる。その際引数に⑮の処理で取得した値と⑥のDBの接続情報を渡す。
+					$book=getId($book_id,$pdo);
 				?>
-				<!--<input type="hidden" value="<?//php echo	/* ⑰ ⑯の戻り値からidを取り出し、設定する */;?>" name="books[]">-->
+				<input type="hidden" value="<?php echo $book['id']//echo	/* ⑰ ⑯の戻り値からidを取り出し、設定する */;?>" name="books[]">
 				<tr>
-					<td><?php echo	$row['id'].PHP_EOL; /* ⑱ ⑯の戻り値からidを取り出し、表示する */?></td>
-					<td><?php //echo	/* ⑲ ⑯の戻り値からtitleを取り出し、表示する */;?></td>
-					<td><?php //echo	/* ⑳ ⑯の戻り値からauthorを取り出し、表示する */;?></td>
-					<td><?php //echo	/* ㉑ ⑯の戻り値からsalesDateを取り出し、表示する */;?></td>
-					<td><?php //echo	/* ㉒ ⑯の戻り値からpriceを取り出し、表示する */;?></td>
-					<td><?php //echo	/* ㉓ ⑯の戻り値からstockを取り出し、表示する */;?></td>
+					<td><?php echo	$book['id']; /* ⑱ ⑯の戻り値からidを取り出し、表示する */?></td>
+					<td><?php echo	$book['title'];	/* ⑲ ⑯の戻り値からtitleを取り出し、表示する */;?></td>
+					<td><?php echo	$book['author'];	/* ⑳ ⑯の戻り値からauthorを取り出し、表示する */;?></td>
+					<td><?php echo	$book['salesDate'];	/* ㉑ ⑯の戻り値からsalesDateを取り出し、表示する */;?></td>
+					<td><?php echo	$book['price'];	/* ㉒ ⑯の戻り値からpriceを取り出し、表示する */;?></td>
+					<td><?php echo	$book['stock'];	/* ㉓ ⑯の戻り値からstockを取り出し、表示する */;?></td>
 					<td><input type='text' name='stock[]' size='5' maxlength='11' required></td>
 				</tr>
 				<?php
-				//}
+				}
 				?>
 			</table>
 			<button type="submit" id="kakutei" formmethod="POST" name="decision" value="1">確定</button>
