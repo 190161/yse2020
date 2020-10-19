@@ -12,6 +12,7 @@
 
 //①セッションを開始する
 session_start();
+session_regenerate_id();
 
 //②SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
 // if (/* ②の処理を書く */){

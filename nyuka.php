@@ -14,10 +14,10 @@
  * ①session_status()の結果が「PHP_SESSION_NONE」と一致するか判定する。
  * 一致した場合はif文の中に入る。
  */
-// if (/* ①.の処理を行う */) {
-// 	//②セッションを開始する
-// }
-
+if (session_status() == PHP_SESSION_NONE/* ①.の処理を行う */) {
+	//②セッションを開始する
+	session_start();
+}
 
 //③SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
 // if (/* ③の処理を書く */){
@@ -114,8 +114,7 @@ $query=$con->query($sql);
     					// ⑯「getId」関数を呼び出し、変数に戻り値を入れる。その際引数に⑮の処理で取得した値と⑥のDBの接続情報を渡す。
 						$book= getId($book_id,$pdo);
 					?>
-					<input type="hidden" value="<?php echo $book['id']//echo	/* ⑰ ⑯の戻り値からidを取り出し、設定する */;?>" name="books[]">
-					　　　　　　　　　　　　　　　<!-- idの設定は未確定 -->
+					<input type="hidden" value="<?php echo $book['id']/* ⑰ ⑯の戻り値からidを取り出し、設定する */;?>" name="books[]">
 					<tr>
 						<td><?php echo $book['id']	/* ⑱ ⑯の戻り値からidを取り出し、表示する */;?></td>
 						<td><?php echo $book['title']	/* ⑲ ⑯の戻り値からtitleを取り出し、表示する */;?></td>
