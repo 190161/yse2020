@@ -17,6 +17,7 @@
 if (session_status() == PHP_SESSION_NONE/* ①.の処理を行う */) {
 	//②セッションを開始する
 	session_start();
+	session_regenerate_id();
 }
 
 //③SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
