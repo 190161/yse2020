@@ -30,9 +30,9 @@ function updateByid($id,$con,$total){
 	 * 引数で受け取った$totalの値で在庫数を上書く。
 	 * その際にWHERE句でメソッドの引数に$idに一致する書籍のみ取得する。
 	 */
-	$sql = "UPDATE books SET stock = {$total}, WHERE id = {$id}";
-	$total= $con->query($sql);
-	return $query->fetch(PDO::FETCH_ASSOC); 
+	$sql = "UPDATE books SET stock = {$total} WHERE id = {$id}";
+	$query= $con->query($sql);
+	// return $query->fetch(PDO::FETCH_ASSOC); 
 }
 
 //⑤SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
@@ -77,7 +77,7 @@ foreach($_POST['books'] as $book_id){
 	//⑰ ⑯で取得した書籍の情報の「stock」と、⑩の変数を元にPOSTの「stock」から値を取り出して書籍情報の「stock」から値を引いた値を変数に保存する。
 	$goukei = $book["stock"] - $_POST['stock'][$stock];
 	//⑱ ⑰の値が0未満か判定する。0未満の場合はif文の中に入る。
-	if(0 > $goukei /* ⑱の処理を行う */){
+	if($goukei<0 /* ⑱の処理を行う */){
 		//⑲SESSIONの「error」に「出荷する個数が在庫数を超えています」と設定する。
 		$_SESSION['error']= "出荷する個数が在庫数を超えています";
 		//⑳「include」を使用して「syukka.php」を呼び出す。
@@ -94,20 +94,26 @@ foreach($_POST['books'] as $book_id){
  * ㉓POSTでこの画面のボタンの「add」に値が入ってるか確認する。
  * 値が入っている場合は中身に「ok」が設定されていることを確認する。
  */
-// if(/* ㉓の処理を書く */){
-// 	//㉔書籍数をカウントするための変数を宣言し、値を0で初期化する。
+if((isset($_POST['add']) && $_POST['add']=='ok')/* ㉓の処理を書く */){
+	//㉔書籍数をカウントするための変数を宣言し、値を0で初期化する。
+	$index=0;
+	//㉕POSTの「books」から値を取得し、変数に設定する。
+	foreach($_POST['books'] as $book_id/* ㉕の処理を書く */){
+		//㉖「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉕の処理で取得した値と⑧のDBの接続情報を渡す。
+		$book=getByid($book_id,$pdo);
+		//㉗ ㉖で取得した書籍の情報の「stock」と、㉔の変数を元にPOSTの「stock」から値を取り出して書籍情報の「stock」から値を引いた値を変数に保存する。
+		$kekka=$book['stock'] - $_POST['stock'][$index];
+		//㉘「updateByid」関数を呼び出す。その際に引数に㉕の処理で取得した値と⑧のDBの接続情報と㉗で計算した値を渡す。
+		$book=updateByid($book_id,$pdo,$kekka);
+		//㉙ ㉔で宣言した変数をインクリメントで値を1増やす。
+		$index++;
+	}
 
-// 	//㉕POSTの「books」から値を取得し、変数に設定する。
-// 	foreach(/* ㉕の処理を書く */){
-// 		//㉖「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉕の処理で取得した値と⑧のDBの接続情報を渡す。
-// 		//㉗ ㉖で取得した書籍の情報の「stock」と、㉔の変数を元にPOSTの「stock」から値を取り出して書籍情報の「stock」から値を引いた値を変数に保存する。
-// 		//㉘「updateByid」関数を呼び出す。その際に引数に㉕の処理で取得した値と⑧のDBの接続情報と㉗で計算した値を渡す。
-// 		//㉙ ㉔で宣言した変数をインクリメントで値を1増やす。
-// 	}
-
-// 	//㉚SESSIONの「success」に「入荷が完了しました」と設定する。
-// 	//㉛「header」関数を使用して在庫一覧画面へ遷移する。
-// }
+	//㉚SESSIONの「success」に「入荷が完了しました」と設定する。
+	$_SESSION['success']='出荷が完了しました';
+	//㉛「header」関数を使用して在庫一覧画面へ遷移する。
+	header("Location:http://localhost/yse2020/zaiko_ichiran.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja">

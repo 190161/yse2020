@@ -42,6 +42,7 @@ if (!empty($_POST["name"])/* ⑦の処理を書く */) {
 	//⑧名前に「yse」、パスワードに「2019」と設定されているか確認する。設定されていた場合はif文の中に入る
 	if ($login_name=='yse' && $password=='2019'/* ⑧の処理を書く */){
 		// ⑨SESSIONに名前を設定し、SESSIONの「login」フラグをtrueにする
+		$_SESSION['account_name']=$login_name;
 		$_SESSION['login']=true;
 		// ⑩在庫一覧画面へ遷移する
 		header("Location: http://localhost/yse2020/zaiko_ichiran.php"/* ⑩の遷移先を書く */);
