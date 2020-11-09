@@ -35,7 +35,7 @@ try {
 	exit;
 }
 //⑦書籍テーブルから書籍情報を取得するSQLを実行する。また実行結果を変数に保存する
-$sql="SELECT * FROM books";
+$sql="SELECT * FROM books WHERE deleteflg=0";//WHERE以降を外せば削除ファイルも閲覧可能
 $row = $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
@@ -96,6 +96,7 @@ $row = $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
 							<th id="salesDate">発売日</th>
 							<th id="itemPrice">金額</th>
 							<th id="stock">在庫数</th>
+							<th id="deleteflg">削除フラグ</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -112,7 +113,8 @@ $row = $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
 						 	echo "<td id='author'>$author</td>";
 						 	echo "<td id='date'>$salesDate</td>";
 						 	echo "<td id='price'>$price</td>";
-						 	echo "<td id='stock'>$stock</td>";
+							echo "<td id='stock'>$stock</td>";
+							echo "<td id='deletefl'>$deleteflg</td>";
 						 	echo "</tr>";
 						 }
 						?>

@@ -45,7 +45,7 @@ if (!empty($_POST["name"])/* ⑦の処理を書く */) {
 		$_SESSION['account_name']=$login_name;
 		$_SESSION['login']=true;
 		// ⑩在庫一覧画面へ遷移する
-		header("Location: http://localhost/yse2020/zaiko_ichiran.php"/* ⑩の遷移先を書く */);
+		header("Location:zaiko_ichiran.php"/* ⑩の遷移先を書く */);
 	}else{
 		// ⑪名前もしくはパスワードが間違っていた場合は、「ユーザー名かパスワードが間違っています」という文言をメッセージを入れる変数に設定する
 		$errorMessage='ユーザー名かパスワードが間違っています';

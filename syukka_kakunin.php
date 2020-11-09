@@ -96,7 +96,8 @@ foreach($_POST['books'] as $book_id){
  * ㉓POSTでこの画面のボタンの「add」に値が入ってるか確認する。
  * 値が入っている場合は中身に「ok」が設定されていることを確認する。
  */
-if((isset($_POST['add']) && $_POST['add']=='ok')/* ㉓の処理を書く */){
+if((isset($_POST['add']))/* ㉓の処理を書く */){
+	if($_POST['add']=='ok'){
 	//㉔書籍数をカウントするための変数を宣言し、値を0で初期化する。
 	$index=0;
 	//㉕POSTの「books」から値を取得し、変数に設定する。
@@ -114,7 +115,8 @@ if((isset($_POST['add']) && $_POST['add']=='ok')/* ㉓の処理を書く */){
 	//㉚SESSIONの「success」に「入荷が完了しました」と設定する。
 	$_SESSION['success']='出荷が完了しました';
 	//㉛「header」関数を使用して在庫一覧画面へ遷移する。
-	header("Location:http://localhost/yse2020/zaiko_ichiran.php");
+	header("Location:zaiko_ichiran.php");
+	}
 }
 ?>
 <!DOCTYPE html>
