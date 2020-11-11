@@ -96,7 +96,7 @@ $row = $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
 							<th id="salesDate">発売日</th>
 							<th id="itemPrice">金額</th>
 							<th id="stock">在庫数</th>
-							<th id="deleteflg">削除フラグ</th>
+							<!-- <th id="deleteflg">削除フラグ</th> -->
 						</tr>
 					</thead>
 					<tbody>
@@ -114,7 +114,7 @@ $row = $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
 						 	echo "<td id='date'>$salesDate</td>";
 						 	echo "<td id='price'>$price</td>";
 							echo "<td id='stock'>$stock</td>";
-							echo "<td id='deletefl'>$deleteflg</td>";
+							// echo "<td id='deletefl'>$deleteflg</td>";
 						 	echo "</tr>";
 						 }
 						?>
