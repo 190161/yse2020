@@ -15,7 +15,8 @@ function getByid($con){
     return $query->fetch(PDO::FETCH_ASSOC);
 }
 function insertByid($id,$con,$title,$author,$salesDate,$price,$stock){
-	$sql = "INSERT INTO books(id, title, author,salesDate, price, stock)VALUES($id,'$title','$author','$salesDate',$price,$stock)";
+	$new_date = date('Y年m月d日', strtotime($salesDate));
+	$sql = "INSERT INTO books(id, title, author,salesDate, price, stock)VALUES($id,'$title','$author','$new_date',$price,$stock)";
 	$query=$con->query($sql);
 }
 
@@ -42,7 +43,7 @@ try {
 //⑦データベースで使用する文字コードを「UTF8」にする
 $dbh = new PDO("mysql:host=localhost;db_name=zaiko2020_yse;charset=utf8;",  $user_name,  $password );
 $index = 0;
-if((isset($_POST['add']) && is_numeric($_POST['stock'][$index]))){
+if((isset($_POST['add']) && is_numeric($_POST['stock'][$index]) && is_numeric($_POST['price'][$index]))){
 	foreach($_POST['books'] as $book_id){
 		$goukei = $_POST['stock'][$index];
 		if($goukei > 100){
@@ -136,7 +137,7 @@ if((isset($_POST['add']) && is_numeric($_POST['stock'][$index]))){
                         <td><?php echo	$book["id"] + 1/* ㉟ ㉞で取得した書籍情報からtitleを表示する。 */;?></td>
 						<td><input type='text' name='title' size='5' maxlength='11' required></td>
                         <td><input type='text' name='author' size='5' maxlength='11' required></td>
-						<td><input type='text' name='salesDate' size='5' maxlength='11' required></td>
+						<td><input type='date' name='salesDate' value="<?php echo date('Y-m-d'); ?>" required></td>
 						<td><input type='text' name='price[]' size='5' maxlength='11' required></td>
 						<td><input type='text' name='stock[]' size='5' maxlength='11' required></td>
                         <td><input type='text' name='stock2[]' size='5' maxlength='11' required></td>
