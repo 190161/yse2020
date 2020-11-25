@@ -69,7 +69,7 @@ foreach($_POST['books'] as $book_id){
 		//⑬SESSIONの「error」に「数値以外が入力されています」と設定する。
 		$_SESSION['error']= "数値以外が入力されています";
 		//⑭「include」を使用して「syukka.php」を呼び出す。
-		include('nyuka.php');
+		include('syukka.php');
 		//⑮「exit」関数で処理を終了する。
 		exit;
 	}
